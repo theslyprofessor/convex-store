@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ModuleCard from '../../components/ModuleCard.astro';
+import { modules, statusLabels, type ModuleStatus } from '../../data/modules';
+
+const statuses: ModuleStatus[] = ['live', 'beta', 'coming-soon', 'roadmap'];
+---
+
+<BaseLayout title="Modules — ConvexCompose" description="All ConvexCompose modules. Filter by status.">
+  <section class="max-w-6xl mx-auto px-6 pt-16 pb-10">
+    <h1 class="text-4xl md:text-5xl font-bold text-white mb-3">Modules</h1>
+    <p class="text-neutral-400 max-w-2xl">Pre-built business modules for Convex apps. Each module is self-contained, real-time by default, and composable with the others.</p>
+  </section>
+
+  <section class="max-w-6xl mx-auto px-6 pb-10">
+    <div class="flex flex-wrap gap-2" id="filters">
+      <button data-filter="all" class="filter-btn active px-3 py-1.5 rounded-full text-xs border border-violet-500/40 bg-violet-500/15 text-violet-200">All ({modules.length})</button>
+      {statuses.map((s) => {
+        const count = modules.filter((m) => m.status === s).length;
+        if (count === 0) return null;
+        return (
+          <button data-filter={s} class="filter-btn px-3 py-1.5 rounded-full text-xs border border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-700">
+            {statusLabels[s]} ({count})
+          </button>
+        );
+      })}
+    </div>
+  </section>
+
+  <section class="max-w-6xl mx-auto px-6 pb-24">
+    <div id="grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+      {modules.map((m) => (
+        <div class="module-item" data-status={m.status}>
+          <ModuleCard module={m} />
+        </div>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const items = document.querySelectorAll<HTMLElement>('.module-item');
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter;
+      buttons.forEach((b) => {
+        b.classList.remove('active', 'border-violet-500/40', 'bg-violet-500/15', 'text-violet-200');
+        b.classList.add('border-neutral-800', 'text-neutral-400');
+      });
+      btn.classList.add('active', 'border-violet-500/40', 'bg-violet-500/15', 'text-violet-200');
+      btn.classList.remove('border-neutral-800', 'text-neutral-400');
+      items.forEach((it) => {
+        if (filter === 'all' || it.dataset.status === filter) {
+          it.style.display = '';
+        } else {
+          it.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>

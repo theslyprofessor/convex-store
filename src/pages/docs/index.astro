@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const sections = [
+  { href: '/docs/getting-started', title: 'Getting Started', desc: 'Install your first ConvexCompose module in under 10 minutes.' },
+  { href: '/docs/architecture', title: 'Architecture', desc: 'The 3-layer portability model that powers every module.' },
+];
+---
+
+<BaseLayout title="Docs — ConvexCompose">
+  <section class="max-w-4xl mx-auto px-6 pt-16 pb-24">
+    <h1 class="text-4xl md:text-5xl font-bold text-white mb-3">Documentation</h1>
+    <p class="text-neutral-400 mb-12 max-w-2xl">Everything you need to compose Convex apps from modules.</p>
+    <div class="grid md:grid-cols-2 gap-5">
+      {sections.map((s) => (
+        <a href={s.href} class="group p-6 rounded-xl border border-neutral-800 bg-neutral-900/40 hover:border-violet-500/40 transition-colors">
+          <h2 class="text-lg font-semibold text-white mb-1 group-hover:text-violet-300">{s.title}</h2>
+          <p class="text-sm text-neutral-400">{s.desc}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

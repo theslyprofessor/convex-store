@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About — ConvexCompose">
+  <article class="max-w-3xl mx-auto px-6 pt-16 pb-24 prose-invert">
+    <h1>What is ConvexCompose?</h1>
+    <p><strong>ConvexCompose</strong> is a curated marketplace of business-domain modules for full-stack <a href="https://convex.dev">Convex</a> applications. Where Convex Components are infrastructure primitives — rate limiters, workflows, crons — ConvexCompose modules are <em>business modules</em>: mail, tasks, inventory, LMS, booking. Bricks vs. sets.</p>
+
+    <h2>Why this exists</h2>
+    <p>Most teams rebuild the same systems over and over. A todo list. An inbox. A grade book. A booking calendar. Each one takes weeks. Each one ends up being almost-but-not-quite the same as the last. ConvexCompose flips that: instead of writing CRUD for the hundredth time, drop in a module that's already production-tested, real-time by default, and built to compose with the others.</p>
+
+    <h2>How it relates to Convex Components</h2>
+    <p>Convex Components are infrastructure — the bricks. ConvexCompose modules are the rooms you build out of them. A ConvexCompose Mail module might internally use the Convex rate limiter component for outbound throttling and the Convex workflow component for bulk campaign orchestration. They're complementary, not competitive.</p>
+
+    <h2>Built in production</h2>
+    <p>Every module here is extracted from a real Convex application that the maintainer ships and maintains. Most of the early modules come from <a href="https://midimaze.com">Midimaze</a> — a music-tech platform — but ConvexCompose is open to submissions from any team building production Convex apps.</p>
+
+    <h2>Get involved</h2>
+    <ul>
+      <li><a href="/modules">Browse the modules</a></li>
+      <li><a href="/submit">Submit your own</a></li>
+      <li>Email <a href="mailto:nakul@convex.store">nakul@convex.store</a></li>
+    </ul>
+  </article>
+</BaseLayout>

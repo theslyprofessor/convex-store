@@ -1,0 +1,30 @@
+---
+import { statusLabels, statusClasses, categoryLabels, type Module } from '../data/modules';
+
+interface Props {
+  module: Module;
+}
+const { module } = Astro.props;
+---
+
+<a
+  href={`/modules/${module.slug}`}
+  class="group relative flex flex-col p-6 rounded-xl border border-neutral-800 bg-neutral-900/40 hover:border-violet-500/50 hover:bg-neutral-900/80 transition-all"
+>
+  <div class="flex items-start justify-between mb-4">
+    <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-violet-500/20 to-blue-500/20 border border-violet-500/30 flex items-center justify-center text-violet-300 font-semibold">
+      {module.name.charAt(0)}
+    </div>
+    <span class={`text-xs px-2 py-0.5 rounded-full border ${statusClasses[module.status]}`}>
+      {statusLabels[module.status]}
+    </span>
+  </div>
+  <h3 class="text-lg font-semibold text-white mb-1 group-hover:text-violet-300 transition-colors">
+    {module.name}
+  </h3>
+  <p class="text-sm text-neutral-400 mb-4 leading-snug">{module.tagline}</p>
+  <div class="mt-auto flex items-center justify-between text-xs text-neutral-500">
+    <span>{categoryLabels[module.category]}</span>
+    <span class="text-violet-400 opacity-0 group-hover:opacity-100 transition-opacity">View →</span>
+  </div>
+</a>

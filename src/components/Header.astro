@@ -1,0 +1,42 @@
+---
+const links = [
+  { href: '/modules', label: 'Modules' },
+  { href: '/docs', label: 'Docs' },
+  { href: '/submit', label: 'Submit' },
+  { href: '/about', label: 'About' },
+];
+const path = Astro.url.pathname;
+---
+
+<header class="border-b border-neutral-900 sticky top-0 z-50 bg-neutral-950/80 backdrop-blur-md">
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-2 group">
+      <div class="w-7 h-7 rounded-md bg-gradient-to-br from-violet-500 to-blue-500 flex items-center justify-center text-white font-bold text-sm">C</div>
+      <span class="font-semibold tracking-tight text-white">ConvexCompose</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-1">
+      {links.map((l) => {
+        const active = path === l.href || (l.href !== '/' && path.startsWith(l.href));
+        return (
+          <a
+            href={l.href}
+            class={`px-3 py-1.5 rounded-md text-sm transition-colors ${
+              active ? 'text-white bg-neutral-900' : 'text-neutral-400 hover:text-white hover:bg-neutral-900/60'
+            }`}
+          >
+            {l.label}
+          </a>
+        );
+      })}
+      <a
+        href="https://github.com/theslyprofessor"
+        class="ml-2 px-3 py-1.5 rounded-md text-sm border border-neutral-800 text-neutral-300 hover:bg-neutral-900 hover:text-white transition-colors"
+        target="_blank"
+        rel="noopener"
+      >
+        GitHub
+      </a>
+    </nav>
+    <a href="/modules" class="md:hidden text-sm text-neutral-300">Modules</a>
+  </div>
+</header>

@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ModuleCard from '../components/ModuleCard.astro';
+import ArchitectureDiagram from '../components/ArchitectureDiagram.astro';
+import { modules } from '../data/modules';
+---
+
+<BaseLayout>
+  <!-- Hero -->
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-grid opacity-60 pointer-events-none"></div>
+    <div class="absolute inset-0 bg-radial-fade pointer-events-none"></div>
+    <div class="relative max-w-6xl mx-auto px-6 pt-24 pb-20 text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-violet-500/30 bg-violet-500/10 text-xs text-violet-300 mb-6">
+        <span class="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse"></span>
+        Now in early access
+      </div>
+      <h1 class="text-5xl md:text-6xl font-bold tracking-tight text-white mb-6 max-w-3xl mx-auto leading-[1.05]">
+        Compose Convex apps from <span class="bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">modules</span>
+      </h1>
+      <p class="text-lg text-neutral-400 max-w-2xl mx-auto mb-10">
+        Pre-built business modules for full-stack Convex applications. Drop in mail, tasks, inventory, and more — built to be combined.
+      </p>
+      <div class="flex flex-wrap items-center justify-center gap-3">
+        <a href="/modules" class="px-5 py-2.5 rounded-md bg-violet-500 hover:bg-violet-400 text-white font-medium transition-colors">
+          Browse modules
+        </a>
+        <a href="https://github.com/theslyprofessor" target="_blank" rel="noopener" class="px-5 py-2.5 rounded-md border border-neutral-800 hover:border-neutral-700 hover:bg-neutral-900 text-neutral-200 font-medium transition-colors">
+          View on GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why -->
+  <section class="max-w-6xl mx-auto px-6 py-20">
+    <div class="text-center mb-14">
+      <h2 class="text-3xl md:text-4xl font-bold text-white mb-3">Why ConvexCompose</h2>
+      <p class="text-neutral-400">Building real apps requires more than primitives.</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="p-6 rounded-xl border border-neutral-800 bg-neutral-900/40">
+        <div class="w-10 h-10 rounded-lg bg-violet-500/15 border border-violet-500/30 flex items-center justify-center mb-4 text-violet-300">⚡</div>
+        <h3 class="font-semibold text-white mb-2">Real-time by default</h3>
+        <p class="text-sm text-neutral-400 leading-relaxed">Modules use Convex's reactive queries. Updates propagate instantly across your app without polling.</p>
+      </div>
+      <div class="p-6 rounded-xl border border-neutral-800 bg-neutral-900/40">
+        <div class="w-10 h-10 rounded-lg bg-blue-500/15 border border-blue-500/30 flex items-center justify-center mb-4 text-blue-300">🧩</div>
+        <h3 class="font-semibold text-white mb-2">Compose, don't reinvent</h3>
+        <p class="text-sm text-neutral-400 leading-relaxed">Drop in a fully-featured mail or task system in 10 minutes instead of building from scratch.</p>
+      </div>
+      <div class="p-6 rounded-xl border border-neutral-800 bg-neutral-900/40">
+        <div class="w-10 h-10 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center mb-4 text-emerald-300">📐</div>
+        <h3 class="font-semibold text-white mb-2">Three-layer portability</h3>
+        <p class="text-sm text-neutral-400 leading-relaxed">Convex backend (100% portable) + framework-agnostic React components + thin route wrappers for any router.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Architecture -->
+  <section class="max-w-6xl mx-auto px-6 py-20 border-t border-neutral-900">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl md:text-4xl font-bold text-white mb-3">Layered architecture</h2>
+      <p class="text-neutral-400">Modules sit on top of Convex Components, not next to them.</p>
+    </div>
+    <ArchitectureDiagram />
+    <div class="text-center mt-8">
+      <a href="/docs/architecture" class="text-sm text-violet-400 hover:text-violet-300">Read the architecture docs →</a>
+    </div>
+  </section>
+
+  <!-- Modules -->
+  <section class="max-w-6xl mx-auto px-6 py-20 border-t border-neutral-900">
+    <div class="flex items-end justify-between mb-10">
+      <div>
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-2">Modules</h2>
+        <p class="text-neutral-400">{modules.length} modules. From inbox to inventory.</p>
+      </div>
+      <a href="/modules" class="text-sm text-violet-400 hover:text-violet-300 hidden md:inline">View all →</a>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+      {modules.map((m) => <ModuleCard module={m} />)}
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="max-w-4xl mx-auto px-6 py-24 text-center">
+    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Stop reinventing the wheel.</h2>
+    <p class="text-neutral-400 mb-8 max-w-xl mx-auto">ConvexCompose is open source and built in production at Midimaze. Help shape what gets composed next.</p>
+    <div class="flex flex-wrap items-center justify-center gap-3">
+      <a href="/docs/getting-started" class="px-5 py-2.5 rounded-md bg-violet-500 hover:bg-violet-400 text-white font-medium transition-colors">Get started</a>
+      <a href="/submit" class="px-5 py-2.5 rounded-md border border-neutral-800 hover:bg-neutral-900 text-neutral-200 font-medium transition-colors">Submit a module</a>
+    </div>
+  </section>
+</BaseLayout>

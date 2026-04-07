@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Getting Started — ConvexCompose Docs">
+  <article class="max-w-3xl mx-auto px-6 pt-16 pb-24 prose-invert">
+    <a href="/docs" class="text-sm text-neutral-400 hover:text-white inline-flex items-center gap-1 mb-6 no-underline">← Docs</a>
+    <h1>Getting Started</h1>
+    <p>ConvexCompose modules drop into any Convex app. The CLI is on the way; in the meantime, you can copy modules directly from the GitHub repo.</p>
+
+    <h2>1. Prerequisites</h2>
+    <ul>
+      <li>An existing Convex project (<code>npx create-convex@latest</code>)</li>
+      <li>Node 20+ or Bun 1.x</li>
+    </ul>
+
+    <h2>2. Install a module</h2>
+    <pre><code>npx convexcompose install convex-mail</code></pre>
+    <p><em>CLI coming soon.</em> For now, copy the module folder from the <a href="https://github.com/theslyprofessor">GitHub repo</a> into your Convex project's <code>convex/</code> directory.</p>
+
+    <h2>3. Wire it up</h2>
+    <p>Each module ships with three layers — install the Convex backend first, then drop the React components into your frontend, then add the route wrapper for your router (TanStack Start, Next.js, Remix).</p>
+
+    <h2>4. Compose more modules</h2>
+    <p>Modules are designed to coexist. Install Mail and Tasks together — bug reports become issues, transactional emails come from your campaigns module, and everything stays reactive.</p>
+
+    <div class="mt-10 p-5 rounded-lg border border-violet-500/30 bg-violet-500/5 not-prose">
+      <p class="text-sm text-neutral-300 mb-3">Need a hand getting set up?</p>
+      <a href="mailto:nakul@convex.store" class="text-sm text-violet-300 hover:text-violet-200 underline underline-offset-4">nakul@convex.store</a>
+    </div>
+  </article>
+</BaseLayout>

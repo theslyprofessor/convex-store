@@ -1,0 +1,97 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { modules, statusLabels, statusClasses, categoryLabels } from '../../data/modules';
+
+export async function getStaticPaths() {
+  return modules.map((m) => ({ params: { slug: m.slug }, props: { module: m } }));
+}
+
+const { module } = Astro.props;
+const isUnreleased = module.status === 'coming-soon' || module.status === 'roadmap';
+const installCmd = `npx convexcompose install ${module.slug}`;
+---
+
+<BaseLayout title={`${module.name} — ConvexCompose`} description={module.tagline}>
+  <article class="max-w-4xl mx-auto px-6 pt-16 pb-24">
+    <a href="/modules" class="text-sm text-neutral-400 hover:text-white inline-flex items-center gap-1 mb-8">← All modules</a>
+
+    <div class="flex items-start gap-5 mb-6">
+      <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-500/30 to-blue-500/30 border border-violet-500/40 flex items-center justify-center text-2xl font-bold text-violet-200 shrink-0">
+        {module.name.charAt(0)}
+      </div>
+      <div class="flex-1">
+        <div class="flex flex-wrap items-center gap-3 mb-2">
+          <h1 class="text-4xl font-bold text-white">{module.name}</h1>
+          <span class={`text-xs px-2 py-0.5 rounded-full border ${statusClasses[module.status]}`}>
+            {statusLabels[module.status]}
+          </span>
+          <span class="text-xs px-2 py-0.5 rounded-full border border-neutral-800 text-neutral-400">
+            {categoryLabels[module.category]}
+          </span>
+        </div>
+        <p class="text-lg text-neutral-400">{module.tagline}</p>
+      </div>
+    </div>
+
+    <!-- Install -->
+    <div class="rounded-lg border border-neutral-800 bg-neutral-900/60 p-4 mb-10 flex items-center justify-between gap-4">
+      <code class="text-sm text-violet-300 font-mono truncate">$ {installCmd}</code>
+      <span class="text-xs text-neutral-500 shrink-0">CLI coming soon</span>
+    </div>
+
+    <!-- Description -->
+    <section class="mb-10">
+      <h2 class="text-xl font-semibold text-white mb-3">About</h2>
+      <p class="text-neutral-300 leading-relaxed">{module.description}</p>
+    </section>
+
+    <!-- Highlights -->
+    <section class="mb-10">
+      <h2 class="text-xl font-semibold text-white mb-4">Highlights</h2>
+      <ul class="space-y-2">
+        {module.highlights.map((h) => (
+          <li class="flex items-start gap-3 text-neutral-300">
+            <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-violet-400 shrink-0"></span>
+            <span>{h}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- Used by -->
+    <section class="mb-10">
+      <h2 class="text-xl font-semibold text-white mb-4">Used in production by</h2>
+      <a href="https://midimaze.com" target="_blank" rel="noopener" class="inline-flex items-center gap-3 p-4 rounded-lg border border-neutral-800 bg-neutral-900/40 hover:border-violet-500/40 transition-colors">
+        <div class="w-10 h-10 rounded-md bg-gradient-to-br from-orange-500 to-pink-500 flex items-center justify-center text-white font-bold">M</div>
+        <div>
+          <div class="font-semibold text-white">Midimaze</div>
+          <div class="text-xs text-neutral-400">midimaze.com →</div>
+        </div>
+      </a>
+    </section>
+
+    <!-- CTA -->
+    {isUnreleased ? (
+      <section class="rounded-xl border border-violet-500/30 bg-violet-500/5 p-6 text-center">
+        <h3 class="text-lg font-semibold text-white mb-2">Not shipped yet</h3>
+        <p class="text-sm text-neutral-400 mb-4">This module is on the roadmap. Want to be notified when it's ready?</p>
+        <a
+          href={`mailto:nakul@convex.store?subject=Notify%20me:%20${encodeURIComponent(module.name)}&body=Please%20notify%20me%20when%20${encodeURIComponent(module.name)}%20is%20available.`}
+          class="inline-block px-5 py-2.5 rounded-md bg-violet-500 hover:bg-violet-400 text-white font-medium transition-colors"
+        >
+          Notify me when it ships
+        </a>
+      </section>
+    ) : (
+      <section class="rounded-xl border border-neutral-800 bg-neutral-900/40 p-6 flex items-center justify-between gap-4 flex-wrap">
+        <div>
+          <h3 class="text-lg font-semibold text-white">Ready to compose?</h3>
+          <p class="text-sm text-neutral-400">Get started in under 10 minutes.</p>
+        </div>
+        <a href="/docs/getting-started" class="px-5 py-2.5 rounded-md bg-violet-500 hover:bg-violet-400 text-white font-medium transition-colors">
+          Get started
+        </a>
+      </section>
+    )}
+  </article>
+</BaseLayout>

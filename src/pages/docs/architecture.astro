@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArchitectureDiagram from '../../components/ArchitectureDiagram.astro';
+---
+
+<BaseLayout title="Architecture — ConvexCompose Docs">
+  <article class="max-w-3xl mx-auto px-6 pt-16 pb-24 prose-invert">
+    <a href="/docs" class="text-sm text-neutral-400 hover:text-white inline-flex items-center gap-1 mb-6 no-underline">← Docs</a>
+    <h1>The 3-Layer Portability Model</h1>
+    <p>Every ConvexCompose module is built in three layers. The key insight: <strong>each layer has different portability properties</strong>, and you only pay the framework-coupling cost at the very top.</p>
+
+    <div class="my-10 not-prose">
+      <ArchitectureDiagram />
+    </div>
+
+    <h2>Layer 1: Convex Core (100% portable)</h2>
+    <p>The Convex schema and functions. Pure TypeScript with zero framework dependencies. This is where your data lives, your queries run, and your mutations execute.</p>
+    <ul>
+      <li>Drop the folder into any Convex project.</li>
+      <li>No React, no Next.js, no TanStack imports.</li>
+      <li>Tested with Convex's built-in test harness.</li>
+    </ul>
+
+    <h2>Layer 2: React Components (~90% portable)</h2>
+    <p>Standard React components that consume the Convex hooks (<code>useQuery</code>, <code>useMutation</code>). They are framework-agnostic — no router imports, no <code>next/link</code>, no TanStack <code>Link</code>. Navigation happens through callback props that the host app wires up.</p>
+    <ul>
+      <li>Pass <code>onNavigate</code> from the host's router.</li>
+      <li>Pass <code>renderLink</code> for SSR-friendly links.</li>
+      <li>Style with Tailwind utility classes (or override).</li>
+    </ul>
+
+    <h2>Layer 3: Route Wrappers (framework-specific)</h2>
+    <p>Thin shells — usually about 5 lines each — that adapt the React components to your specific router. ConvexCompose ships templates for TanStack Start, Next.js, and Remix.</p>
+    <pre><code>{`// apps/web/src/routes/mail.tsx (TanStack Start)
+import { createFileRoute } from '@tanstack/react-router';
+import { MailInbox } from '@convexcompose/mail/react';
+
+export const Route = createFileRoute('/mail')({
+  component: () => <MailInbox onOpen={(id) => Route.navigate({ to: \`/mail/\${id}\` })} />,
+});`}</code></pre>
+
+    <h2>Why this matters</h2>
+    <p>If you swap routers (or even rewrite your frontend in a different framework entirely), you only rewrite Layer 3. Your data, your queries, and 90% of your UI come along for the ride.</p>
+  </article>
+</BaseLayout>
