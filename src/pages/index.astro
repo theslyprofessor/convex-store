@@ -13,46 +13,77 @@ import { modules } from '../data/modules';
     <div class="relative max-w-6xl mx-auto px-6 pt-24 pb-20 text-center">
       <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-violet-500/30 bg-violet-500/10 text-xs text-violet-300 mb-6">
         <span class="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse"></span>
-        Now in early access
+        A contract, a proving ground, and the first module in extraction
       </div>
-      <h1 class="text-5xl md:text-6xl font-bold tracking-tight text-white mb-6 max-w-3xl mx-auto leading-[1.05]">
-        Compose Convex apps from <span class="bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">modules</span>
+      <h1 class="text-5xl md:text-6xl font-bold tracking-tight text-white mb-6 max-w-4xl mx-auto leading-[1.05]">
+        Drop-in <span class="bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">business modules</span> for <span class="bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">Convex</span>.
       </h1>
-      <p class="text-lg text-neutral-400 max-w-2xl mx-auto mb-10">
-        Pre-built business modules for full-stack Convex applications. Drop in mail, tasks, inventory, and more — built to be combined.
+      <p class="text-lg text-neutral-400 max-w-2xl mx-auto mb-4">
+        LMS, mail, tasks, inventory, and more. Each ships a Convex Component, headless hooks, and an optional reference UI. Use our UI, or bring your own. The backend is yours either way. Compose them into any app.
+      </p>
+      <p class="text-sm text-neutral-500 max-w-2xl mx-auto mb-10">
+        Built with and on top of <a href="https://convex.dev" class="text-violet-400 hover:text-violet-300">Convex.dev</a> Components (the get-convex project). An extension one layer up, not a competitor; not Chef, not Templates.
       </p>
       <div class="flex flex-wrap items-center justify-center gap-3">
         <a href="/modules" class="px-5 py-2.5 rounded-md bg-violet-500 hover:bg-violet-400 text-white font-medium transition-colors">
           Browse modules
         </a>
-        <a href="https://github.com/theslyprofessor" target="_blank" rel="noopener" class="px-5 py-2.5 rounded-md border border-neutral-800 hover:border-neutral-700 hover:bg-neutral-900 text-neutral-200 font-medium transition-colors">
-          View on GitHub
+        <a href="/docs/architecture" class="px-5 py-2.5 rounded-md border border-neutral-800 hover:border-neutral-700 hover:bg-neutral-900 text-neutral-200 font-medium transition-colors">
+          Read the contract
         </a>
       </div>
     </div>
   </section>
 
-  <!-- Why -->
+  <!-- How every module ships -->
   <section class="max-w-6xl mx-auto px-6 py-20">
     <div class="text-center mb-14">
-      <h2 class="text-3xl md:text-4xl font-bold text-white mb-3">Why ConvexCompose</h2>
-      <p class="text-neutral-400">Building real apps requires more than primitives.</p>
+      <h2 class="text-3xl md:text-4xl font-bold text-white mb-3">How every module ships</h2>
+      <p class="text-neutral-400 max-w-2xl mx-auto">Every module is the same shape: an agnostic core you always get, plus a reference UI you take or replace. There is no single reference app; you build whatever consumer you want.</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="p-6 rounded-xl border border-emerald-500/30 bg-emerald-500/5">
+        <div class="text-xs font-mono text-emerald-300 mb-2">1 · a Convex Component</div>
+        <h3 class="font-semibold text-white mb-2">The backend</h3>
+        <p class="text-sm text-neutral-400 leading-relaxed">convex.config.ts, schema, and functions as an isolated, app.use()-installable Component. Real-time and transactional by construction. Same everywhere.</p>
+      </div>
+      <div class="p-6 rounded-xl border border-blue-500/30 bg-blue-500/5">
+        <div class="text-xs font-mono text-blue-300 mb-2">2 · headless hooks</div>
+        <h3 class="font-semibold text-white mb-2">The logic</h3>
+        <p class="text-sm text-neutral-400 leading-relaxed">useX() over Convex hooks: no router, no styling system, navigation passed in as callbacks. Works in any framework, DOM or React Native.</p>
+      </div>
+      <div class="p-6 rounded-xl border border-violet-500/30 bg-violet-500/5">
+        <div class="text-xs font-mono text-violet-300 mb-2">3 · an OPTIONAL reference UI</div>
+        <h3 class="font-semibold text-white mb-2">Take it or replace it</h3>
+        <p class="text-sm text-neutral-400 leading-relaxed">Each module ships its own optional reference UI. Drop it in for batteries included, or take the Component and hooks and build your own surface.</p>
+      </div>
+    </div>
+    <div class="text-center mt-12">
+      <p class="text-neutral-400 max-w-2xl mx-auto">Opinionated about the module contract. Unopinionated about your stack.</p>
+    </div>
+  </section>
+
+  <!-- Why -->
+  <section class="max-w-6xl mx-auto px-6 py-20 border-t border-neutral-900">
+    <div class="text-center mb-14">
+      <h2 class="text-3xl md:text-4xl font-bold text-white mb-3">Prescribe the shape, not the stack</h2>
+      <p class="text-neutral-400">One module serves the web-only majority and the cross-platform minority, without forcing either into the other's toolchain.</p>
     </div>
     <div class="grid md:grid-cols-3 gap-6">
       <div class="p-6 rounded-xl border border-neutral-800 bg-neutral-900/40">
-        <div class="w-10 h-10 rounded-lg bg-violet-500/15 border border-violet-500/30 flex items-center justify-center mb-4 text-violet-300">⚡</div>
-        <h3 class="font-semibold text-white mb-2">Real-time by default</h3>
-        <p class="text-sm text-neutral-400 leading-relaxed">Modules use Convex's reactive queries. Updates propagate instantly across your app without polling.</p>
+        <div class="w-10 h-10 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center mb-4 text-emerald-300">🧱</div>
+        <h3 class="font-semibold text-white mb-2">A Convex Component</h3>
+        <p class="text-sm text-neutral-400 leading-relaxed">Layer 1 is the Convex-native unit of value: convex.config.ts, schema, functions, isolated and app.use()-installable, transactional by construction.</p>
       </div>
       <div class="p-6 rounded-xl border border-neutral-800 bg-neutral-900/40">
-        <div class="w-10 h-10 rounded-lg bg-blue-500/15 border border-blue-500/30 flex items-center justify-center mb-4 text-blue-300">🧩</div>
-        <h3 class="font-semibold text-white mb-2">Compose, don't reinvent</h3>
-        <p class="text-sm text-neutral-400 leading-relaxed">Drop in a fully-featured mail or task system in 10 minutes instead of building from scratch.</p>
+        <div class="w-10 h-10 rounded-lg bg-blue-500/15 border border-blue-500/30 flex items-center justify-center mb-4 text-blue-300">🪝</div>
+        <h3 class="font-semibold text-white mb-2">Headless hooks</h3>
+        <p class="text-sm text-neutral-400 leading-relaxed">Layer 2 is useX() over Convex hooks: no router import, no styling system, navigation passed in as callbacks. It runs under any React renderer, DOM or React Native.</p>
       </div>
       <div class="p-6 rounded-xl border border-neutral-800 bg-neutral-900/40">
-        <div class="w-10 h-10 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center mb-4 text-emerald-300">📐</div>
-        <h3 class="font-semibold text-white mb-2">Three-layer portability</h3>
-        <p class="text-sm text-neutral-400 leading-relaxed">Convex backend (100% portable) + framework-agnostic React components + thin route wrappers for any router.</p>
+        <div class="w-10 h-10 rounded-lg bg-violet-500/15 border border-violet-500/30 flex items-center justify-center mb-4 text-violet-300">📐</div>
+        <h3 class="font-semibold text-white mb-2">Optional reference UI</h3>
+        <p class="text-sm text-neutral-400 leading-relaxed">Want batteries included? Drop in the optional RN + NativeWind kit. Want your own surface? Take the Component and hooks and write ~5-line route wrappers.</p>
       </div>
     </div>
   </section>
@@ -60,36 +91,62 @@ import { modules } from '../data/modules';
   <!-- Architecture -->
   <section class="max-w-6xl mx-auto px-6 py-20 border-t border-neutral-900">
     <div class="text-center mb-12">
-      <h2 class="text-3xl md:text-4xl font-bold text-white mb-3">Layered architecture</h2>
-      <p class="text-neutral-400">Modules sit on top of Convex Components, not next to them.</p>
+      <h2 class="text-3xl md:text-4xl font-bold text-white mb-3">The three-layer model</h2>
+      <p class="text-neutral-400">Most-portable at the bottom, most-consumer-specific at the top. You only write the top.</p>
     </div>
     <ArchitectureDiagram />
     <div class="text-center mt-8">
-      <a href="/docs/architecture" class="text-sm text-violet-400 hover:text-violet-300">Read the architecture docs →</a>
+      <a href="/docs/architecture" class="text-sm text-violet-400 hover:text-violet-300">Read the contract and the layers →</a>
+    </div>
+  </section>
+
+  <!-- Proof -->
+  <section class="max-w-6xl mx-auto px-6 py-20 border-t border-neutral-900">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl md:text-4xl font-bold text-white mb-3">A real proving ground</h2>
+      <p class="text-neutral-400 max-w-2xl mx-auto">The contract was extracted from a system in production. Here is what is verified, stated plainly.</p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-5">
+      <div class="p-6 rounded-xl border border-neutral-800 bg-neutral-900/40">
+        <h3 class="font-semibold text-white mb-2">50+ portals, one deployment</h3>
+        <p class="text-sm text-neutral-400 leading-relaxed">A production deployment runs 50+ portals on one Convex deployment, used daily by a working college professor for real classes (LMS, bookings, mail). Not a demo.</p>
+      </div>
+      <div class="p-6 rounded-xl border border-neutral-800 bg-neutral-900/40">
+        <h3 class="font-semibold text-white mb-2">Live federated portal</h3>
+        <p class="text-sm text-neutral-400 leading-relaxed">A live federated portal runs on its own subdomain (valid cert), consuming the shared deployment by name via anyApi. Separate repos, shared data by construction.</p>
+      </div>
+      <div class="p-6 rounded-xl border border-neutral-800 bg-neutral-900/40">
+        <h3 class="font-semibold text-white mb-2">One source, two platforms</h3>
+        <p class="text-sm text-neutral-400 leading-relaxed">One shared component renders on web (react-native-web) and mobile (Expo) from a single source. The two apps symlink the same file; nothing is copied.</p>
+      </div>
+      <div class="p-6 rounded-xl border border-neutral-800 bg-neutral-900/40">
+        <h3 class="font-semibold text-white mb-2">Components in production</h3>
+        <p class="text-sm text-neutral-400 leading-relaxed">app.use(betterAuth) and app.use(posthog) are live. Entity linking already goes through a canonical Better Auth userId passed explicitly into each Component, so cross-Component mutations stay atomic.</p>
+      </div>
     </div>
   </section>
 
   <!-- Modules -->
   <section class="max-w-6xl mx-auto px-6 py-20 border-t border-neutral-900">
-    <div class="flex items-end justify-between mb-10">
+    <div class="flex items-end justify-between mb-4">
       <div>
-        <h2 class="text-3xl md:text-4xl font-bold text-white mb-2">Modules</h2>
-        <p class="text-neutral-400">{modules.length} modules. From inbox to inventory.</p>
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-2">Modules in flight</h2>
+        <p class="text-neutral-400">None are published, installable packages yet. convex-garden is the first in extraction; the rest run in a production deployment or are planned.</p>
       </div>
       <a href="/modules" class="text-sm text-violet-400 hover:text-violet-300 hidden md:inline">View all →</a>
     </div>
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mt-6">
       {modules.map((m) => <ModuleCard module={m} />)}
     </div>
   </section>
 
   <!-- CTA -->
   <section class="max-w-4xl mx-auto px-6 py-24 text-center">
-    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Stop reinventing the wheel.</h2>
-    <p class="text-neutral-400 mb-8 max-w-xl mx-auto">ConvexCompose is open source and built in production at Midimaze. Help shape what gets composed next.</p>
+    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Author a module to the contract.</h2>
+    <p class="text-neutral-400 mb-8 max-w-xl mx-auto">ConvexCompose is the second wave of Convex Components: business domains above the infra primitives. If you build to the contract, your domain travels across stacks.</p>
     <div class="flex flex-wrap items-center justify-center gap-3">
       <a href="/docs/getting-started" class="px-5 py-2.5 rounded-md bg-violet-500 hover:bg-violet-400 text-white font-medium transition-colors">Get started</a>
-      <a href="/submit" class="px-5 py-2.5 rounded-md border border-neutral-800 hover:bg-neutral-900 text-neutral-200 font-medium transition-colors">Submit a module</a>
+      <a href="/submit" class="px-5 py-2.5 rounded-md border border-neutral-800 hover:bg-neutral-900 text-neutral-200 font-medium transition-colors">Conformance checklist</a>
     </div>
   </section>
 </BaseLayout>

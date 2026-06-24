@@ -7,6 +7,12 @@ export type ModuleCategory =
   | 'personal'
   | 'utility';
 
+// Honest status vocabulary. Nothing here is a published, installable npm package yet.
+//   beta        = runs in a real production deployment, mid-extraction into a module
+//   coming-soon = exists as code in a production deployment, extraction not started
+//   roadmap     = planned, not yet built as a domain in a production deployment
+// (the 'live' value is retained for type-compatibility but is deliberately unused;
+//  no module is a shipped, installable package today.)
 export type ModuleStatus = 'live' | 'beta' | 'coming-soon' | 'roadmap';
 
 export interface Module {
@@ -18,185 +24,227 @@ export interface Module {
   status: ModuleStatus;
   icon?: string;
   highlights: string[];
+  // Every module ships as the same three-part shape (the contract):
+  //   a Convex Component + headless hooks + an OPTIONAL reference UI.
+  // A Next dev can take the Component and hooks and bring their own UI.
+  delivery: {
+    component: string;
+    hooks: string;
+    referenceUi: string;
+  };
 }
 
+const defaultDelivery = {
+  component: 'A Convex Component (convex.config.ts + schema + functions), app.use()-installable into your deployment',
+  hooks: 'Headless useX() hooks: router-free, style-free, navigation passed in as callbacks',
+  referenceUi: 'An OPTIONAL React Native + NativeWind reference UI; ignore it and bring your own surface',
+};
+
 export const modules: Module[] = [
+  {
+    slug: 'convex-garden',
+    name: 'Garden',
+    tagline: 'The lead example: first module being extracted to the contract',
+    description:
+      'A small, complete plant/garden tracker used as the worked example for the whole contract. It is the first domain being extracted from a real production deployment into a fully contract-conformant ConvexCompose module: a Convex Component, headless useGarden() hooks, a portal.config.ts manifest, and an optional reference UI. Use it to learn the shape every other module follows.',
+    category: 'personal',
+    status: 'beta',
+    icon: 'Sprout',
+    highlights: [
+      'Lead worked example for the module contract',
+      'Real (non-conforming) garden exists in a production deployment today',
+      'Mid-extraction into a defineComponent("garden") Component',
+      'Authorization from ctx; cross-module links by explicit passed-in userId',
+      'Ships Component + useGarden() hook + optional reference UI',
+    ],
+    delivery: defaultDelivery,
+  },
   {
     slug: 'convex-mail',
     name: 'Mail',
     tagline: 'Inbox, helpdesk, and transactional email',
     description:
-      'A complete email module with inbox threading, contact management, transactional sending, and bulk campaigns. Pluggable SMTP adapters (SES, Resend, Gmail, generic SMTP) let you choose your provider without rewriting code.',
+      'Inbox threading, contact management, transactional sending, and bulk campaigns, with pluggable SMTP adapters (SES, Resend, Gmail, generic SMTP). This runs in a real production deployment today as a plain function module; it is mid-extraction into a contract-conformant Component plus headless hooks, not yet a published installable package.',
     category: 'communication',
     status: 'beta',
     icon: 'Mail',
     highlights: [
-      '8 reactive Convex tables',
+      'Runs in a real production deployment',
+      'Mid-extraction: not yet a published installable package',
       'Inbox threading with In-Reply-To matching',
       'Pluggable SMTP adapters (SES, Resend, Gmail)',
       'Bulk campaign orchestration',
-      'Auto contact management',
     ],
+    delivery: defaultDelivery,
   },
   {
     slug: 'convex-tasks',
     name: 'Tasks',
-    tagline: 'Issues, projects, and bug reports — composed',
+    tagline: 'Issues, projects, and bug reports, composed',
     description:
-      'A task and issue management module that replaces standalone tools like Linear and Jira. Polymorphic issues (task / bug / feature / equipment / support) with inline list editing, projects, sprints, and entity linking to any other table in your app.',
+      'Polymorphic issues (task / bug / feature / equipment / support) with inline list editing, projects, sprints, and entity linking by explicit ID. This runs in a real production deployment today as a plain function module; it is mid-extraction into a contract-conformant Component plus headless hooks, not yet a published installable package.',
     category: 'project',
     status: 'beta',
     icon: 'ListChecks',
     highlights: [
+      'Runs in a real production deployment',
+      'Mid-extraction: not yet a published installable package',
       'Polymorphic issues with type discriminator',
-      'NocoDB-style inline list editing',
-      'Auto context capture for bug reports',
-      'Comments thread per issue',
-      'Entity linking across modules',
+      'Inline list editing',
+      'Cross-module entity linking by explicit ID',
     ],
-  },
-  {
-    slug: 'convex-inventory',
-    name: 'Inventory',
-    tagline: 'Asset tracking, checkouts, and maintenance',
-    description:
-      'Track physical assets across locations. Checkout/return workflows, condition tracking, maintenance scheduling, and equipment lifecycle management. Originally built for studio gear, now generalizes to any organizational asset.',
-    category: 'operations',
-    status: 'coming-soon',
-    icon: 'Package',
-    highlights: [
-      'Per-unit checkout tracking',
-      'Condition + maintenance history',
-      'Photo galleries per item',
-      'Power supply tracking (often missing!)',
-      'Multi-location support',
-    ],
+    delivery: defaultDelivery,
   },
   {
     slug: 'convex-lms',
     name: 'LMS',
     tagline: 'Courses, students, grades, and attendance',
     description:
-      'A learning management system module — courses, enrollments, assignments, quizzes, attendance tracking, and grade computation. Built for institutions that need integrated education tooling without the bloat of Canvas or Moodle.',
+      'Courses, enrollments, assignments, quizzes, attendance tracking, and grade computation. This is used daily in a real production deployment by a working college professor for actual classes; it runs as a plain function module on one deployment and is mid-extraction into a contract-conformant Component plus headless hooks, not yet a published installable package.',
     category: 'education',
-    status: 'coming-soon',
+    status: 'beta',
     icon: 'GraduationCap',
     highlights: [
+      'Used daily in a production deployment for real college classes',
+      'Mid-extraction: not yet a published installable package',
       'Cross-listed course support',
-      'Attendance + late tracking',
+      'Attendance and late tracking',
       'Grade categories with drop-lowest',
-      'Assignment submissions',
-      'Discussion threads',
     ],
+    delivery: defaultDelivery,
   },
   {
     slug: 'convex-booking',
     name: 'Booking',
     tagline: 'Resource scheduling without the conflicts',
     description:
-      'Schedule rooms, equipment, or any resource with conflict detection, recurring bookings, and Google Calendar sync. Built for studios; adapts to any space-or-resource scheduling problem.',
+      'Schedule rooms, equipment, or any resource with conflict detection, recurring bookings, and Google Calendar sync. This runs in a real production deployment today as a plain function module; it is mid-extraction into a contract-conformant Component plus headless hooks, not yet a published installable package.',
     category: 'operations',
-    status: 'coming-soon',
+    status: 'beta',
     icon: 'Calendar',
     highlights: [
+      'Runs in a real production deployment',
+      'Mid-extraction: not yet a published installable package',
       'Per-resource booking calendar',
       'Conflict detection',
       'Google Calendar sync',
-      'Recurring booking support',
-      'Multi-resource booking',
     ],
+    delivery: defaultDelivery,
   },
   {
-    slug: 'convex-content',
-    name: 'Content',
-    tagline: 'Articles, MDX, and Obsidian vault sync',
+    slug: 'convex-inventory',
+    name: 'Inventory',
+    tagline: 'Asset tracking, checkouts, and maintenance',
     description:
-      'A content management module for publishing markdown/MDX articles. Includes Obsidian vault sync for writers who prefer their notes app, with hierarchy preservation and asset upload.',
-    category: 'content',
-    status: 'roadmap',
-    icon: 'FileText',
+      'Track physical assets across locations with checkout/return workflows, condition tracking, and maintenance scheduling. Originally built for studio gear; it exists as code in a production deployment but extraction into a contract-conformant module has not started.',
+    category: 'operations',
+    status: 'coming-soon',
+    icon: 'Package',
     highlights: [
-      'MDX article rendering',
-      'Obsidian vault one-way sync',
-      'Asset upload + storage',
-      'Article visibility (public/private/family)',
-      'Tag-based categorization',
+      'Exists in a production deployment; extraction not started',
+      'Per-unit checkout tracking',
+      'Condition and maintenance history',
+      'Photo galleries per item',
+      'Multi-location support',
     ],
+    delivery: defaultDelivery,
   },
   {
     slug: 'convex-access',
     name: 'Access',
     tagline: 'Granular per-resource sharing',
     description:
-      'Email-based allowlists for sharing specific resources with people outside your auth system. Perfect for "share this one document with my advisor" scenarios where role-based access is too coarse.',
+      'Email-based allowlists for sharing specific resources with people outside your auth system, for "share this one document with my advisor" cases where role-based access is too coarse. It exists as code in a production deployment but extraction into a contract-conformant module has not started.',
     category: 'utility',
     status: 'coming-soon',
     icon: 'Key',
     highlights: [
+      'Exists in a production deployment; extraction not started',
       'Per-resource grants',
       'Email-based allowlists',
-      'Expiration + revocation',
-      'CLI grant management',
+      'Expiration and revocation',
       'Audit log',
     ],
+    delivery: defaultDelivery,
+  },
+  {
+    slug: 'convex-content',
+    name: 'Content',
+    tagline: 'Articles, MDX, and Obsidian vault sync',
+    description:
+      'A content module for publishing markdown/MDX articles, with Obsidian vault sync for writers who prefer their notes app. Planned, not yet built as a contract-conformant module.',
+    category: 'content',
+    status: 'roadmap',
+    icon: 'FileText',
+    highlights: [
+      'Planned, not yet built as a module',
+      'MDX article rendering',
+      'Obsidian vault one-way sync',
+      'Asset upload and storage',
+      'Tag-based categorization',
+    ],
+    delivery: defaultDelivery,
   },
   {
     slug: 'convex-quiz',
     name: 'Quiz',
     tagline: 'Subject-agnostic question packs and sessions',
     description:
-      'Build quizzes, trivia games, or knowledge-check sessions with reusable question packs. Tracks individual answers, computes scores, and surfaces analytics. Domain-neutral — drop it into any app that needs assessment.',
+      'Quizzes, trivia, or knowledge-check sessions built from reusable question packs, tracking answers, computing scores, and surfacing analytics. Planned, not yet built as a contract-conformant module.',
     category: 'education',
     status: 'roadmap',
     icon: 'HelpCircle',
     highlights: [
+      'Planned, not yet built as a module',
       'Question pack reusability',
       'Multiple question types',
       'Session-based answer tracking',
-      'Score computation',
       'Analytics per question',
     ],
+    delivery: defaultDelivery,
   },
   {
     slug: 'convex-clipper',
     name: 'Clipper',
     tagline: 'Save anything from the web',
     description:
-      'A universal web clipper module — save articles, videos, tweets, or any URL with metadata, screenshots, and tags. Works with a browser extension and pairs with reading queues.',
+      'A universal web clipper: save articles, videos, or any URL with metadata, screenshots, and tags, paired with a browser extension and reading queues. Planned, not yet built as a contract-conformant module.',
     category: 'personal',
     status: 'roadmap',
     icon: 'Bookmark',
     highlights: [
+      'Planned, not yet built as a module',
       'Browser extension support',
       'Auto metadata extraction',
-      'Tag-based organization',
       'Read-later queue',
       'Full-text search',
     ],
+    delivery: defaultDelivery,
   },
   {
     slug: 'convex-reader',
     name: 'Reader',
     tagline: 'PDF library with bookmarks and highlights',
     description:
-      'An e-library module for managing PDFs and books with reading positions, bookmarks, highlights, and notes. Built for research workflows.',
+      'An e-library for managing PDFs and books with reading positions, bookmarks, highlights, and notes, built for research workflows. Planned, not yet built as a contract-conformant module.',
     category: 'personal',
     status: 'roadmap',
     icon: 'BookOpen',
     highlights: [
-      'PDF storage + viewer',
+      'Planned, not yet built as a module',
+      'PDF storage and viewer',
       'Per-user reading position',
-      'Highlights + annotations',
-      'Collection organization',
+      'Highlights and annotations',
       'Search across library',
     ],
+    delivery: defaultDelivery,
   },
 ];
 
 export const statusLabels: Record<ModuleStatus, string> = {
   live: 'Live',
-  beta: 'Beta',
-  'coming-soon': 'Coming Soon',
+  beta: 'In production',
+  'coming-soon': 'Extraction pending',
   roadmap: 'Roadmap',
 };
 

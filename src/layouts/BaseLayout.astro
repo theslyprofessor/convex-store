@@ -9,8 +9,8 @@ interface Props {
 }
 
 const {
-  title = 'ConvexCompose — Compose Convex apps from modules',
-  description = 'The module marketplace for full-stack Convex applications. Drop in mail, tasks, inventory, and more — built to be combined.',
+  title = 'ConvexCompose: opinionated about the module, unopinionated about the host',
+  description = 'A module contract for business-domain Convex Components: ship a Component, headless hooks, and an optional reference UI. Prescribe the shape, not the stack.',
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://convex.store').toString();

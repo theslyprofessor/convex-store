@@ -1,22 +1,24 @@
 ---
 const layers = [
-  { num: 4, title: 'Your App', desc: 'Routes, layouts, your business logic', color: 'from-violet-500/30 to-violet-500/10', border: 'border-violet-500/40' },
-  { num: 3, title: 'ConvexCompose Modules', desc: 'Mail · Tasks · LMS · Inventory · Booking · …', color: 'from-blue-500/30 to-blue-500/10', border: 'border-blue-500/40' },
-  { num: 2, title: 'Convex Components', desc: 'Rate Limiter · Workflow · Crons · Aggregate', color: 'from-emerald-500/25 to-emerald-500/10', border: 'border-emerald-500/40' },
-  { num: 1, title: 'Convex Core', desc: 'Reactive database, functions, auth, scheduling', color: 'from-neutral-500/25 to-neutral-500/10', border: 'border-neutral-500/40' },
+  { num: 3, title: 'Layer 3: Thin route wrappers (you write this)', desc: '~5 lines each · binds Layer 2 into your router + chrome · TanStack / Next / Expo', tag: 'consumer', color: 'from-violet-500/30 to-violet-500/10', border: 'border-violet-500/40' },
+  { num: 2, title: 'Layer 2: Headless React hooks', desc: 'useX() over Convex hooks · no router · no styling · navigation as callbacks · any renderer', tag: 'MUST', color: 'from-blue-500/30 to-blue-500/10', border: 'border-blue-500/40' },
+  { num: 1, title: 'Layer 1: Convex Component', desc: 'convex.config.ts + schema + functions · app.use()-installable · isolated · transactional', tag: 'MUST', color: 'from-emerald-500/25 to-emerald-500/10', border: 'border-emerald-500/40' },
+  { num: 0, title: 'Convex infra Components', desc: 'Rate Limiter · Aggregate · Agent · Workpool · the first-wave primitives this builds on', tag: 'get-convex', color: 'from-neutral-500/25 to-neutral-500/10', border: 'border-neutral-500/40' },
 ];
 ---
 
 <div class="space-y-2 max-w-2xl mx-auto">
+  <div class="text-center text-xs text-violet-300/80 mb-1">beside Layer 2/3, OPTIONAL: a reference UI package (RN + NativeWind), drop in or ignore</div>
   {layers.map((l) => (
     <div class={`rounded-lg border ${l.border} bg-gradient-to-r ${l.color} px-5 py-4 flex items-center gap-4`}>
       <div class="w-8 h-8 rounded-md bg-neutral-950/60 border border-white/10 flex items-center justify-center text-xs font-mono text-neutral-300">
-        L{l.num}
+        {l.num === 0 ? 'C' : `L${l.num}`}
       </div>
       <div class="flex-1">
         <div class="font-semibold text-white">{l.title}</div>
         <div class="text-xs text-neutral-300/80">{l.desc}</div>
       </div>
+      <span class="text-[10px] uppercase tracking-wide px-2 py-0.5 rounded-full border border-white/10 bg-neutral-950/40 text-neutral-300 shrink-0">{l.tag}</span>
     </div>
   ))}
 </div>

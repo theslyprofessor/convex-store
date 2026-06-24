@@ -3,43 +3,76 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import ArchitectureDiagram from '../../components/ArchitectureDiagram.astro';
 ---
 
-<BaseLayout title="Architecture — ConvexCompose Docs">
+<BaseLayout title="The Module Contract : ConvexCompose Docs">
   <article class="max-w-3xl mx-auto px-6 pt-16 pb-24 prose-invert">
     <a href="/docs" class="text-sm text-neutral-400 hover:text-white inline-flex items-center gap-1 mb-6 no-underline">← Docs</a>
-    <h1>The 3-Layer Portability Model</h1>
-    <p>Every ConvexCompose module is built in three layers. The key insight: <strong>each layer has different portability properties</strong>, and you only pay the framework-coupling cost at the very top.</p>
+    <h1>The module contract</h1>
+    <p>Conformance with this contract is what makes something a ConvexCompose module. The contract is opinionated about what a module <em>is</em> and silent about how you consume it. The seminal asymmetry: <strong>be opinionated about the module, unopinionated about the host.</strong> Every MUST below tightens the module's shape; every MUST NOT protects the host's freedom.</p>
+
+    <h2>Agnostic core, optional reference UI</h2>
+    <p>Two things are held apart inside every module and must never be collapsed.</p>
+    <ul>
+      <li><strong>The agnostic core.</strong> What a module is: a Convex Component plus headless React logic plus a manifest. It carries the invariant business meaning of a domain and assumes no framework, router, styling engine, or platform. It is the thing that ports, and it is what you always get. This is the open ecosystem, <strong>ConvexCompose</strong>, for any Convex developer on any stack.</li>
+      <li><strong>The optional reference UI.</strong> Each module ships its own OPTIONAL reference UI: one fully worked, batteries-included way to consume the core, offered as a convenience, never as a requirement. If you want the paved road, drop it in. If not, build your own surface on the same core. There is no single reference app; any consumer is yours to build.</li>
+    </ul>
+    <p>The core maximizes reach; the optional reference UI maximizes convenience for the subset who want the paved road. Neither contaminates the other.</p>
+
+    <h2>The three-layer model</h2>
+    <p>Every module is structured in three layers, ordered most-portable to most-consumer-specific. You only write the top one.</p>
 
     <div class="my-10 not-prose">
       <ArchitectureDiagram />
     </div>
 
-    <h2>Layer 1: Convex Core (100% portable)</h2>
-    <p>The Convex schema and functions. Pure TypeScript with zero framework dependencies. This is where your data lives, your queries run, and your mutations execute.</p>
+    <h2>MUST</h2>
+    <ol>
+      <li><strong>Provide a Convex Component (Layer 1).</strong> Ship convex.config.ts, schema, and functions as an isolated, app.use()-installable Component. This is the Convex-native unit of value, with isolation and transactional safety by construction.</li>
+      <li><strong>Provide headless React hooks (Layer 2).</strong> Expose useX() hooks over Convex hooks. They MUST NOT import a router; navigation MUST be expressed via callbacks the consumer supplies; they MUST NOT assume any styling system.</li>
+      <li><strong>Provide a manifest (portal.config.ts).</strong> Declare the module and its entity-link points so a host registry can discover and wire it.</li>
+      <li><strong>Link entities across modules by explicit ID passed in.</strong> A cross-module relationship MUST be expressed by passing a canonical ID (for example the Better Auth userId) into a Component as an explicit argument, never by a cross-Component table join (Convex Components forbid those by design).</li>
+    </ol>
+    <p><strong>Carve-out that keeps M4 idiomatic:</strong> deriving identity from <code>ctx</code> for <em>authorization</em> (via requireAuth / requireRole) inside a handler is allowed and expected. M4 governs cross-module <em>linking</em> only. A conforming handler both authenticates its caller from ctx and accepts the canonical foreign-key ID as an explicit argument. The rule of thumb: authorization comes from ctx; cross-module links come from a passed-in ID.</p>
+
+    <h2>MUST NOT</h2>
     <ul>
-      <li>Drop the folder into any Convex project.</li>
-      <li>No React, no Next.js, no TanStack imports.</li>
-      <li>Tested with Convex's built-in test harness.</li>
+      <li><strong>Import a router.</strong> No router dependency anywhere in Layer 1 or Layer 2.</li>
+      <li><strong>Assume a styling system.</strong> No hard dependency on Tailwind, NativeWind, or shadcn in the core.</li>
+      <li><strong>Assume a platform.</strong> No web-only or mobile-only assumption; Layer 2 must run under any React renderer.</li>
     </ul>
 
-    <h2>Layer 2: React Components (~90% portable)</h2>
-    <p>Standard React components that consume the Convex hooks (<code>useQuery</code>, <code>useMutation</code>). They are framework-agnostic — no router imports, no <code>next/link</code>, no TanStack <code>Link</code>. Navigation happens through callback props that the host app wires up.</p>
+    <h2>OPTIONAL (clearly labeled)</h2>
     <ul>
-      <li>Pass <code>onNavigate</code> from the host's router.</li>
-      <li>Pass <code>renderLink</code> for SSR-friendly links.</li>
-      <li>Style with Tailwind utility classes (or override).</li>
+      <li><strong>A reference UI package.</strong> For example a React Native plus NativeWind kit shipped alongside a module. It is a drop-in Layer 3 surface for consumers who want one, and is fully ignorable. Omitting it costs the consumer nothing but the convenience.</li>
     </ul>
 
-    <h2>Layer 3: Route Wrappers (framework-specific)</h2>
-    <p>Thin shells — usually about 5 lines each — that adapt the React components to your specific router. ConvexCompose ships templates for TanStack Start, Next.js, and Remix.</p>
-    <pre><code>{`// apps/web/src/routes/mail.tsx (TanStack Start)
-import { createFileRoute } from '@tanstack/react-router';
-import { MailInbox } from '@convexcompose/mail/react';
+    <h2>Contract-to-layer map</h2>
+    <table>
+      <thead>
+        <tr><th>Contract element</th><th>Layer</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Convex Component (convex.config.ts + schema + functions)</td><td>Layer 1</td><td>MUST</td></tr>
+        <tr><td>Headless useX() hooks, router-free, style-free, callback navigation</td><td>Layer 2</td><td>MUST</td></tr>
+        <tr><td>portal.config.ts manifest with entity-link points</td><td>cross-cutting</td><td>MUST</td></tr>
+        <tr><td>Cross-module linking by explicit passed-in ID (no cross-Component joins)</td><td>Layer 1 boundary</td><td>MUST</td></tr>
+        <tr><td>Identity from ctx for authorization (requireAuth / requireRole)</td><td>Layer 1 handler</td><td>ALLOWED</td></tr>
+        <tr><td>Router import / styling assumption / platform assumption</td><td>any</td><td>MUST NOT</td></tr>
+        <tr><td>Reference UI package (RN + NativeWind kit)</td><td>Layer 3</td><td>OPTIONAL</td></tr>
+      </tbody>
+    </table>
 
-export const Route = createFileRoute('/mail')({
-  component: () => <MailInbox onOpen={(id) => Route.navigate({ to: \`/mail/\${id}\` })} />,
-});`}</code></pre>
+    <h2>Why this is the appeal</h2>
+    <p>Because the module forces no stack on anyone, two very different developers are fully served by the same module. A web-only Next plus shadcn developer installs the Component and the headless hooks and writes their own UI in roughly five-line route wrappers. A cross-platform developer pulls the full reference kit and gets a working surface out of the box. Forcing the full React Native stack on everyone would collapse the addressable audience to the minority building cross-platform, when most are web-only. The agnostic core keeps reach broad; the opinionated reference keeps the road paved. They are the two ends of one contract.</p>
 
-    <h2>Why this matters</h2>
-    <p>If you swap routers (or even rewrite your frontend in a different framework entirely), you only rewrite Layer 3. Your data, your queries, and 90% of your UI come along for the ride.</p>
+    <h2>An extension, not a competitor</h2>
+    <p>ConvexCompose builds with and on top of <a href="https://convex.dev">Convex.dev</a> Components (the get-convex project, not the unrelated convex.com CRM). It is the "second wave" Convex's own Stack writing predicted: business-domain components above the infra primitives (rate limiter, aggregate, agent). It is not a rival to Convex's Chef app-builder or to Templates.</p>
+
+    <div class="mt-10 p-5 rounded-lg border border-violet-500/30 bg-violet-500/5 not-prose">
+      <p class="text-sm text-neutral-300 mb-3">Ready to build to the contract? See a module installed and used, then run the checklist.</p>
+      <div class="flex flex-wrap gap-3">
+        <a href="/docs/getting-started" class="text-sm text-violet-300 hover:text-violet-200 underline underline-offset-4">Getting started</a>
+        <a href="/submit" class="text-sm text-violet-300 hover:text-violet-200 underline underline-offset-4">Conformance checklist</a>
+      </div>
+    </div>
   </article>
 </BaseLayout>

@@ -2,24 +2,40 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="About — ConvexCompose">
+<BaseLayout title="About : ConvexCompose">
   <article class="max-w-3xl mx-auto px-6 pt-16 pb-24 prose-invert">
-    <h1>What is ConvexCompose?</h1>
-    <p><strong>ConvexCompose</strong> is a curated marketplace of business-domain modules for full-stack <a href="https://convex.dev">Convex</a> applications. Where Convex Components are infrastructure primitives — rate limiters, workflows, crons — ConvexCompose modules are <em>business modules</em>: mail, tasks, inventory, LMS, booking. Bricks vs. sets.</p>
+    <h1>What ConvexCompose is</h1>
+    <p><strong>ConvexCompose</strong> is a contract for business-domain modules built on <a href="https://convex.dev">Convex.dev</a> (the get-convex project, not the unrelated convex.com CRM). The seminal idea is a single asymmetry: <strong>be opinionated about the module contract and unopinionated about the host app.</strong> Prescribe how a module is shaped, so modules compose with each other and port across targets. Prescribe nothing about the consumer's framework, router, styling system, or platform.</p>
 
-    <h2>Why this exists</h2>
-    <p>Most teams rebuild the same systems over and over. A todo list. An inbox. A grade book. A booking calendar. Each one takes weeks. Each one ends up being almost-but-not-quite the same as the last. ConvexCompose flips that: instead of writing CRUD for the hundredth time, drop in a module that's already production-tested, real-time by default, and built to compose with the others.</p>
+    <h2>The split lives at the module level</h2>
+    <p>Two things are deliberately held apart inside every module and must never collapse into each other.</p>
+    <ul>
+      <li><strong>The agnostic core.</strong> A Convex Component plus headless React hooks plus a manifest. It carries the invariant business meaning of a domain and assumes no framework, router, styling engine, or platform. This is the thing that ports, and it is what you always get. It appeals to any Convex developer on any stack: Next, Remix, TanStack Start, Expo, or web-only.</li>
+      <li><strong>The optional reference UI.</strong> Each module ships its own OPTIONAL reference UI: one fully worked, batteries-included way to consume the core, offered as a convenience and never as a requirement. Take it as-is, or take the Component and hooks and build your own surface. There is no single reference app; anyone can build any consumer, and the reference UIs are per-module and optional.</li>
+    </ul>
 
-    <h2>How it relates to Convex Components</h2>
-    <p>Convex Components are infrastructure — the bricks. ConvexCompose modules are the rooms you build out of them. A ConvexCompose Mail module might internally use the Convex rate limiter component for outbound throttling and the Convex workflow component for bulk campaign orchestration. They're complementary, not competitive.</p>
+    <h2>The second wave of Convex Components</h2>
+    <p>Convex Components gave the backend a real module system. The first wave is infrastructure primitives that live below your application: rate limiter, aggregate, agent, workpool, crons. Convex's own Stack writing pointed past that first batch to a "second wave" of components filling the application layer above the primitives and below your routes: the business domains themselves, an LMS, a booking system, a mail module. Business-domain modules are exactly that second wave, authored from outside.</p>
+    <p>So ConvexCompose is an <strong>extension</strong> of the Convex Components ecosystem, not a competitor to it. A business-domain module is not parallel to Convex's primitives; it is a consumer of them, composing the rate limiter and the aggregate that Convex already ships rather than reinventing them. The stack used here is the stack Convex itself points to: it sponsors TanStack and recommends Better Auth. This is not a rival to Convex's Chef app-builder or to Templates. It is just the next set of modules.</p>
 
-    <h2>Built in production</h2>
-    <p>Every module here is extracted from a real Convex application that the maintainer ships and maintains. Most of the early modules come from <a href="https://midimaze.com">Midimaze</a> — a music-tech platform — but ConvexCompose is open to submissions from any team building production Convex apps.</p>
+    <h2>The three-layer model</h2>
+    <p>Every module is structured in three layers, ordered most-portable to most-consumer-specific.</p>
+    <ul>
+      <li><strong>Layer 1: a Convex Component.</strong> convex.config.ts plus schema plus functions, isolated and app.use()-installable, transactional by construction. Same everywhere.</li>
+      <li><strong>Layer 2: headless React hooks.</strong> useX() over Convex's React hooks. No router import, no styling system, navigation expressed as callbacks the consumer supplies. Runs under any React renderer, DOM or React Native.</li>
+      <li><strong>Layer 3: thin route wrappers.</strong> Roughly five lines each, binding Layer 2 into the consumer's actual router and chrome. This is the only layer the consumer is expected to write.</li>
+    </ul>
+    <p>Beside Layer 2 and 3, clearly labeled OPTIONAL, each module ships its own reference UI package (for example an RN plus NativeWind kit). Drop it in for batteries included, or ignore it and lose nothing but the convenience.</p>
+
+    <h2>A real production story, told honestly</h2>
+    <p>The contract was extracted from a system in production. A production deployment runs 50+ portals on one Convex deployment, used daily by a working college professor for real classes (an LMS with assignments, attendance, and grades; bookings; mail). A live federated portal runs on its own subdomain, consuming the shared deployment by name. One shared component renders on web (react-native-web) and on mobile (Expo) from a single source. app.use(betterAuth) and app.use(posthog) are live Convex Components in production.</p>
+    <p>Being honest about the gap matters as much as the proof. No ConvexCompose module is a published, installable package today. The domains above run in a production deployment as plain function modules on one deployment; they are mid-extraction into conforming Components. <strong>convex-garden</strong> is the first module being extracted to the full contract and is the lead worked example. What exists is the contract, a real proving ground, and the first module in extraction; not ten products available now.</p>
 
     <h2>Get involved</h2>
     <ul>
-      <li><a href="/modules">Browse the modules</a></li>
-      <li><a href="/submit">Submit your own</a></li>
+      <li><a href="/docs/architecture">Read the module contract</a></li>
+      <li><a href="/docs/getting-started">See a module installed and used</a></li>
+      <li><a href="/submit">Conformance checklist for module authors</a></li>
       <li>Email <a href="mailto:nakul@convex.store">nakul@convex.store</a></li>
     </ul>
   </article>

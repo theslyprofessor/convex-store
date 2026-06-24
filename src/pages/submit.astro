@@ -1,11 +1,95 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const structure = [
+  'Ships convex.config.ts exporting a defineComponent(...) (M1)',
+  'Ships schema and functions as part of that Component (M1)',
+  'The Component installs via app.use(...) in a host with no edits to the module (M1)',
+  'Ships headless useX() hooks in a renderer-agnostic React entry point (M2)',
+  'Ships a portal.config.ts manifest declaring consumes / exposes entity-link points (M3)',
+];
+
+const prohibitions = [
+  'No router import anywhere in the core (Layers 1 and 2): no react-router, next/navigation, next/router, expo-router, or @tanstack/router (N1)',
+  'No styling-system import in the core: no nativewind, tailwind, shadcn, class-variance-authority, or tailwind-merge outside the OPTIONAL UI package (N2)',
+  'No server-only or platform-only API in Layer 2: hooks run under any React renderer (N3)',
+  'Navigation in hooks is only caller-supplied callbacks, never imported router calls (M2)',
+];
+
+const identity = [
+  'Authorization uses ctx (requireAuth / requireRole) inside handlers (allowed and expected)',
+  'Every cross-module relationship is a canonical ID passed in as an explicit argument, not derived from ctx for linking (M4)',
+  'No cross-Component table join anywhere (M4)',
+];
+
+const optionalUi = [
+  'The reference UI is a separate package from the core, not bundled into Layers 1 or 2 (O1)',
+  'The reference UI is documented as optional and the module is fully usable without it (O1)',
+];
 ---
 
-<BaseLayout title="Submit a Module — ConvexCompose">
-  <section class="max-w-2xl mx-auto px-6 pt-16 pb-24">
-    <h1 class="text-4xl md:text-5xl font-bold text-white mb-3">Submit a module</h1>
-    <p class="text-neutral-400 mb-10">Built something Convex-native that other developers should know about? We curate ConvexCompose around quality and composability — tell us what you've made.</p>
+<BaseLayout title="Conformance checklist : ConvexCompose">
+  <section class="max-w-3xl mx-auto px-6 pt-16 pb-24">
+    <h1 class="text-4xl md:text-5xl font-bold text-white mb-3">Conformance checklist</h1>
+    <p class="text-neutral-400 mb-4 max-w-2xl">The module contract made actionable. Copy this into your module's README and check every box before claiming conformance. ConvexCompose is opinionated about the module and unopinionated about the host; this is the contract that makes a domain travel across stacks.</p>
+    <p class="text-sm text-neutral-500 mb-12 max-w-2xl">This is a manual checklist verified by review and targeted greps; there is no automated gate yet. Until one exists, describe a module as "verified against the checklist," not "conformance-tested."</p>
+
+    <div class="space-y-8 mb-16">
+      <div>
+        <h2 class="text-xl font-semibold text-white mb-1">Structure</h2>
+        <p class="text-sm text-neutral-500 mb-4">The three required parts: a Component, headless hooks, and a manifest.</p>
+        <ul class="space-y-2">
+          {structure.map((item) => (
+            <li class="flex items-start gap-3 text-sm text-neutral-300">
+              <span class="mt-0.5 w-4 h-4 rounded border border-emerald-500/40 bg-emerald-500/10 shrink-0"></span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-semibold text-white mb-1">Prohibitions (grep your core; Layers 1 and 2 only)</h2>
+        <p class="text-sm text-neutral-500 mb-4">What the core must not pull in, so it forces nothing on the host.</p>
+        <ul class="space-y-2">
+          {prohibitions.map((item) => (
+            <li class="flex items-start gap-3 text-sm text-neutral-300">
+              <span class="mt-0.5 w-4 h-4 rounded border border-red-500/40 bg-red-500/10 shrink-0"></span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-semibold text-white mb-1">Identity and linking</h2>
+        <p class="text-sm text-neutral-500 mb-4">Authorization comes from ctx; cross-module links come from a passed-in ID.</p>
+        <ul class="space-y-2">
+          {identity.map((item) => (
+            <li class="flex items-start gap-3 text-sm text-neutral-300">
+              <span class="mt-0.5 w-4 h-4 rounded border border-blue-500/40 bg-blue-500/10 shrink-0"></span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-semibold text-white mb-1">Optional UI (only if you ship one)</h2>
+        <p class="text-sm text-neutral-500 mb-4">The reference UI is a drop-in convenience, kept out of the core.</p>
+        <ul class="space-y-2">
+          {optionalUi.map((item) => (
+            <li class="flex items-start gap-3 text-sm text-neutral-300">
+              <span class="mt-0.5 w-4 h-4 rounded border border-violet-500/40 bg-violet-500/10 shrink-0"></span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <h2 class="text-2xl font-bold text-white mb-2">Submit your module</h2>
+    <p class="text-neutral-400 mb-8">Checked every box? Tell us what you built. ConvexCompose is curated around the contract: a conforming Convex Component, headless hooks, a manifest, explicit-ID linking, and a clearly optional reference UI.</p>
 
     <form class="space-y-5" action="mailto:nakul@convex.store" method="post" enctype="text/plain">
       <div>
@@ -21,8 +105,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <input name="repo" type="url" class="w-full px-3 py-2 rounded-md bg-neutral-900 border border-neutral-800 focus:border-violet-500 focus:outline-none text-white" />
       </div>
       <div>
-        <label class="block text-sm text-neutral-300 mb-1.5">What does it do?</label>
-        <textarea name="description" rows="5" required class="w-full px-3 py-2 rounded-md bg-neutral-900 border border-neutral-800 focus:border-violet-500 focus:outline-none text-white"></textarea>
+        <label class="block text-sm text-neutral-300 mb-1.5">Which domain, and how does it conform?</label>
+        <textarea name="description" rows="5" required placeholder="What the module does, and which contract elements (M1-M4, N1-N3, O1) it satisfies." class="w-full px-3 py-2 rounded-md bg-neutral-900 border border-neutral-800 focus:border-violet-500 focus:outline-none text-white"></textarea>
       </div>
       <button type="submit" class="px-5 py-2.5 rounded-md bg-violet-500 hover:bg-violet-400 text-white font-medium transition-colors">
         Submit module
