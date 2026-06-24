@@ -50,7 +50,7 @@ import { modules } from '../data/modules';
       <div class="p-6 rounded-xl border border-blue-500/30 bg-blue-500/5">
         <div class="text-xs font-mono text-blue-300 mb-2">2 · headless hooks</div>
         <h3 class="font-semibold text-white mb-2">The logic</h3>
-        <p class="text-sm text-neutral-400 leading-relaxed">useX() over Convex hooks: no router, no styling system, navigation passed in as callbacks. Works in any framework, DOM or React Native.</p>
+        <p class="text-sm text-neutral-400 leading-relaxed">useX() over Convex hooks: no router, no styling system, navigation passed in as callbacks. Works in any React framework, on web or React Native.</p>
       </div>
       <div class="p-6 rounded-xl border border-violet-500/30 bg-violet-500/5">
         <div class="text-xs font-mono text-violet-300 mb-2">3 · an OPTIONAL reference UI</div>
@@ -60,6 +60,24 @@ import { modules } from '../data/modules';
     </div>
     <div class="text-center mt-12">
       <p class="text-neutral-400 max-w-2xl mx-auto">Opinionated about the module contract. Unopinionated about your stack.</p>
+    </div>
+  </section>
+
+  <!-- Works with your framework -->
+  <section class="max-w-6xl mx-auto px-6 py-20 border-t border-neutral-900">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl md:text-4xl font-bold text-white mb-3">Works with your framework</h2>
+      <p class="text-neutral-400 max-w-2xl mx-auto">The hard part, the real-time backend, is yours on any framework Convex supports. The ready-made hooks and the optional UI are React.</p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="p-6 rounded-xl border border-emerald-500/30 bg-emerald-500/5">
+        <h3 class="font-semibold text-white mb-2">React: Next, Remix, TanStack Start, Expo</h3>
+        <p class="text-sm text-neutral-400 leading-relaxed">Everything out of the box: the backend, ready-made data hooks, and an optional UI. Web and React Native from the same module.</p>
+      </div>
+      <div class="p-6 rounded-xl border border-neutral-700 bg-neutral-900/40">
+        <h3 class="font-semibold text-white mb-2">Svelte, Vue, or anything else</h3>
+        <p class="text-sm text-neutral-400 leading-relaxed">The Convex backend works the same way (those clients are first-class). The hooks and UI are React, so you connect the backend with a little glue of your own. The expensive part is still done for you.</p>
+      </div>
     </div>
   </section>
 
