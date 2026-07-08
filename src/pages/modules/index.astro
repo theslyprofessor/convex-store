@@ -3,13 +3,13 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import ModuleCard from '../../components/ModuleCard.astro';
 import { modules, statusLabels, type ModuleStatus } from '../../data/modules';
 
-const statuses: ModuleStatus[] = ['live', 'beta', 'coming-soon', 'roadmap'];
+const statuses: ModuleStatus[] = ['live', 'component', 'beta', 'coming-soon', 'roadmap'];
 ---
 
 <BaseLayout title="Modules : ConvexCompose" description="All ConvexCompose modules. Filter by status.">
   <section class="max-w-6xl mx-auto px-6 pt-16 pb-10">
     <h1 class="text-4xl md:text-5xl font-bold text-white mb-3">Modules</h1>
-    <p class="text-neutral-400 max-w-2xl">Business-domain modules built to the contract: a Convex Component, headless hooks, and an optional reference UI. None are published, installable packages yet. convex-garden is the first in extraction; the rest run in a production deployment or are planned. Filter by status.</p>
+    <p class="text-neutral-400 max-w-2xl">Business-domain modules built to the contract: a Convex Component, headless hooks, and an optional reference UI. Every module already exists as an authored Convex Component running in a production deployment. None are published, installable packages yet; packaging is in progress. Filter by status.</p>
   </section>
 
   <section class="max-w-6xl mx-auto px-6 pb-10">

@@ -8,12 +8,14 @@ export type ModuleCategory =
   | 'utility';
 
 // Honest status vocabulary. Nothing here is a published, installable npm package yet.
+//   component   = an AUTHORED Convex Component runs live in production (Layer 1 of the
+//                 contract done, data migrated); headless hooks and packaging pending
 //   beta        = runs in a real production deployment, mid-extraction into a module
 //   coming-soon = exists as code in a production deployment, extraction not started
 //   roadmap     = planned, not yet built as a domain in a production deployment
 // (the 'live' value is retained for type-compatibility but is deliberately unused;
 //  no module is a shipped, installable package today.)
-export type ModuleStatus = 'live' | 'beta' | 'coming-soon' | 'roadmap';
+export type ModuleStatus = 'live' | 'component' | 'beta' | 'coming-soon' | 'roadmap';
 
 export interface Module {
   slug: string;
@@ -44,18 +46,53 @@ export const modules: Module[] = [
   {
     slug: 'convex-garden',
     name: 'Garden',
-    tagline: 'The lead example: first module being extracted to the contract',
+    tagline: 'A worked example of the module contract, mid-extraction',
     description:
-      'A small, complete plant/garden tracker used as the worked example for the whole contract. It is the first domain being extracted from a real production deployment into a fully contract-conformant ConvexCompose module: a Convex Component, headless useGarden() hooks, a portal.config.ts manifest, and an optional reference UI. Use it to learn the shape every other module follows.',
+      'A small, complete plant/garden tracker used as a worked example for the whole contract: a Convex Component, headless useGarden() hooks, a portal.config.ts manifest, and an optional reference UI. It is mid-extraction from a real production deployment. The furthest-along exemplars of the contract today are convex-diary and convex-audio-analyzer; use Garden as a compact study of the shape every module follows.',
     category: 'personal',
     status: 'beta',
     icon: 'Sprout',
     highlights: [
-      'Lead worked example for the module contract',
-      'Real (non-conforming) garden exists in a production deployment today',
+      'Compact worked example of the module contract',
+      'Real garden runs in a production deployment today',
       'Mid-extraction into a defineComponent("garden") Component',
       'Authorization from ctx; cross-module links by explicit passed-in userId',
       'Ships Component + useGarden() hook + optional reference UI',
+    ],
+    delivery: defaultDelivery,
+  },
+  {
+    slug: 'convex-diary',
+    name: 'Diary',
+    tagline: 'Daily notes with a federated standalone SPA',
+    description:
+      'A daily-note module. An authored Convex Component runs live in production, and a federated standalone SPA in its own repo already consumes the shared deployment. Together with convex-audio-analyzer it is the furthest-along exemplar of the contract, and it is in packaging now.',
+    category: 'personal',
+    status: 'component',
+    icon: 'NotebookPen',
+    highlights: [
+      'Authored Component live in production',
+      'Federated standalone SPA in its own repo',
+      'Consumes the shared deployment by name',
+      'Flagship: in packaging now',
+    ],
+    delivery: defaultDelivery,
+  },
+  {
+    slug: 'convex-audio-analyzer',
+    name: 'Audio Analyzer',
+    tagline: 'Waveform, annotation, and transient analysis for audio tracks',
+    description:
+      'Waveform rendering, annotation, and transient analysis for audio tracks. An authored Convex Component runs live in production with real headless hooks and a full portal UI in the host app. Together with convex-diary it is the furthest-along exemplar of the contract, and it is in packaging now.',
+    category: 'content',
+    status: 'component',
+    icon: 'AudioWaveform',
+    highlights: [
+      'Authored Component live in production',
+      'Real headless hooks already written',
+      'Full portal UI in the host app',
+      'Waveform, annotation, and transient analysis',
+      'Flagship: in packaging now',
     ],
     delivery: defaultDelivery,
   },
@@ -82,13 +119,13 @@ export const modules: Module[] = [
     name: 'Tasks',
     tagline: 'Issues, projects, and bug reports, composed',
     description:
-      'Polymorphic issues (task / bug / feature / equipment / support) with inline list editing, projects, sprints, and entity linking by explicit ID. This runs in a real production deployment today as a plain function module; it is mid-extraction into a contract-conformant Component plus headless hooks, not yet a published installable package.',
+      'Polymorphic issues (task / bug / feature / equipment / support) with inline list editing, projects, sprints, and entity linking by explicit ID. It now runs as an authored Convex Component in production, with data migrated and the old root tables dropped; headless hooks and packaging are pending.',
     category: 'project',
-    status: 'beta',
+    status: 'component',
     icon: 'ListChecks',
     highlights: [
-      'Runs in a real production deployment',
-      'Mid-extraction: not yet a published installable package',
+      'Authored Component live in production',
+      'Headless hooks and packaging pending',
       'Polymorphic issues with type discriminator',
       'Inline list editing',
       'Cross-module entity linking by explicit ID',
@@ -190,16 +227,16 @@ export const modules: Module[] = [
     name: 'Quiz',
     tagline: 'Subject-agnostic question packs and sessions',
     description:
-      'Quizzes, trivia, or knowledge-check sessions built from reusable question packs, tracking answers, computing scores, and surfacing analytics. Planned, not yet built as a contract-conformant module.',
+      'Quizzes, trivia, or knowledge-check sessions built from reusable question packs, tracking answers, computing scores, and surfacing analytics. It now runs as an authored Convex Component in production; headless hooks and packaging are pending.',
     category: 'education',
-    status: 'roadmap',
+    status: 'component',
     icon: 'HelpCircle',
     highlights: [
-      'Planned, not yet built as a module',
+      'Authored Component live in production',
+      'Headless hooks and packaging pending',
       'Question pack reusability',
       'Multiple question types',
       'Session-based answer tracking',
-      'Analytics per question',
     ],
     delivery: defaultDelivery,
   },
@@ -208,13 +245,13 @@ export const modules: Module[] = [
     name: 'Clipper',
     tagline: 'Save anything from the web',
     description:
-      'A universal web clipper: save articles, videos, or any URL with metadata, screenshots, and tags, paired with a browser extension and reading queues. Planned, not yet built as a contract-conformant module.',
+      'A universal web clipper: save articles, videos, or any URL with metadata, screenshots, and tags, with reading queues. It now runs as an authored Convex Component in production; headless hooks and packaging are pending.',
     category: 'personal',
-    status: 'roadmap',
+    status: 'component',
     icon: 'Bookmark',
     highlights: [
-      'Planned, not yet built as a module',
-      'Browser extension support',
+      'Authored Component live in production',
+      'Headless hooks and packaging pending',
       'Auto metadata extraction',
       'Read-later queue',
       'Full-text search',
@@ -226,16 +263,84 @@ export const modules: Module[] = [
     name: 'Reader',
     tagline: 'PDF library with bookmarks and highlights',
     description:
-      'An e-library for managing PDFs and books with reading positions, bookmarks, highlights, and notes, built for research workflows. Planned, not yet built as a contract-conformant module.',
+      'An e-library for managing PDFs and books with reading positions, bookmarks, highlights, and notes, built for research workflows. It now runs as an authored Convex Component in production; headless hooks and packaging are pending.',
     category: 'personal',
-    status: 'roadmap',
+    status: 'component',
     icon: 'BookOpen',
     highlights: [
-      'Planned, not yet built as a module',
+      'Authored Component live in production',
+      'Headless hooks and packaging pending',
       'PDF storage and viewer',
       'Per-user reading position',
       'Highlights and annotations',
-      'Search across library',
+    ],
+    delivery: defaultDelivery,
+  },
+  {
+    slug: 'convex-commander',
+    name: 'Commander',
+    tagline: 'A bash AST visualizer registry',
+    description:
+      'A registry of shell commands parsed and visualized as syntax trees, for learning and auditing bash. An authored Convex Component runs live in production; headless hooks and packaging are pending.',
+    category: 'utility',
+    status: 'component',
+    icon: 'Terminal',
+    highlights: [
+      'Authored Component live in production',
+      'Commands parsed into ASTs',
+      'Visual syntax-tree explorer',
+      'Headless hooks and packaging pending',
+    ],
+    delivery: defaultDelivery,
+  },
+  {
+    slug: 'convex-shortcuts',
+    name: 'Shortcuts',
+    tagline: 'DAW keyboard shortcut reference',
+    description:
+      'A reference library of DAW keyboard shortcuts, organized for quick lookup and study. An authored Convex Component runs live in production; headless hooks and packaging are pending.',
+    category: 'education',
+    status: 'component',
+    icon: 'Keyboard',
+    highlights: [
+      'Authored Component live in production',
+      'Shortcut sets per DAW',
+      'Built for quick lookup and study',
+      'Headless hooks and packaging pending',
+    ],
+    delivery: defaultDelivery,
+  },
+  {
+    slug: 'convex-recommendations',
+    name: 'Recommendations',
+    tagline: 'Family movie and music recommendations',
+    description:
+      'Movie and music recommendations shared within a family or group, with visibility tiers and attribution modes controlling who sees what and who is credited. An authored Convex Component runs live in production; headless hooks and packaging are pending.',
+    category: 'personal',
+    status: 'component',
+    icon: 'Star',
+    highlights: [
+      'Authored Component live in production',
+      'Movies and music in one module',
+      'Visibility tiers and attribution modes',
+      'Headless hooks and packaging pending',
+    ],
+    delivery: defaultDelivery,
+  },
+  {
+    slug: 'convex-annotations',
+    name: 'Annotations',
+    tagline: 'Generic target-scoped annotations with replies',
+    description:
+      'Generic annotations attached to any target entity by explicit ID, with threaded replies: a building block other modules link to instead of reimplementing comments. An authored Convex Component runs live in production; headless hooks and packaging are pending.',
+    category: 'utility',
+    status: 'component',
+    icon: 'MessageSquare',
+    highlights: [
+      'Authored Component live in production',
+      'Target-scoped by explicit entity ID',
+      'Threaded replies',
+      'Headless hooks and packaging pending',
     ],
     delivery: defaultDelivery,
   },
@@ -243,6 +348,7 @@ export const modules: Module[] = [
 
 export const statusLabels: Record<ModuleStatus, string> = {
   live: 'Live',
+  component: 'Component in production',
   beta: 'In production',
   'coming-soon': 'Extraction pending',
   roadmap: 'Roadmap',
@@ -250,6 +356,7 @@ export const statusLabels: Record<ModuleStatus, string> = {
 
 export const statusClasses: Record<ModuleStatus, string> = {
   live: 'bg-green-500/15 text-green-400 border-green-500/30',
+  component: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30',
   beta: 'bg-yellow-500/15 text-yellow-400 border-yellow-500/30',
   'coming-soon': 'bg-neutral-500/15 text-neutral-400 border-neutral-500/30',
   roadmap: 'bg-transparent text-neutral-400 border-neutral-700',
