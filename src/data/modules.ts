@@ -207,9 +207,9 @@ export const modules: Module[] = [
     name: 'Access',
     tagline: 'Granular per-resource sharing',
     description:
-      'Email-based allowlists for sharing specific resources with people outside your auth system, for "share this one document with my advisor" cases where role-based access is too coarse. It exists as code in a production deployment but extraction into a contract-conformant module has not started.',
+      'Email-based allowlists for sharing specific resources with people beyond role-based access, for "share this one document with my advisor" cases. Authored Component live in production: sandboxed grants table, case-normalized emails, checkGrant/grant/revoke surface consumed by the host requireAdminOrGrant guard.',
     category: 'utility',
-    status: 'coming-soon',
+    status: 'component',
     icon: 'Key',
     highlights: [
       'Exists in a production deployment; extraction not started',
