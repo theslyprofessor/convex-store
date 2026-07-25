@@ -62,6 +62,22 @@ export const modules: Module[] = [
     delivery: defaultDelivery,
   },
   {
+    slug: 'convex-foods',
+    name: 'Foods',
+    tagline: 'Groceries, pantry, and produce knowledge in one module',
+    description:
+      'The whole food domain as one module boundary: shared shopping list, pantry stock with expiry, a barcode-backed product catalog with exact-SKU lookup (USDA FoodData Central + Open Food Facts), per-store price history, and the produce encyclopedia. The unification Mealie, KitchenOwl, and Grocy each do a slice of.',
+    category: 'personal',
+    status: 'component',
+    icon: 'Apple',
+    highlights: [
+      'Authored groceries Component live in production',
+      '6,000-product seeded catalog with barcodes and store mapping',
+      'Exact-SKU barcode lookup via USDA FDC with OFF fallback',
+    ],
+    delivery: defaultDelivery,
+  },
+  {
     slug: 'convex-diary',
     name: 'Diary',
     tagline: 'Daily notes with a federated standalone SPA',
